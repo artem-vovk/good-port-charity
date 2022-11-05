@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{reg_admin.h1}"></title>
+
+    <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+<main class="container">
+    <br><br>
+    <h1 th:text="#{reg_admin.h1}"></h1>
+    <form method="post" th:action="@{/reg-admin}" th:object="${user}">
+        <input class="input-field login" type="text" th:field="*{firstname}" th:placeholder="#{reg_and_reg-admin.placeholder_firstname}" required minlength="2">
+        <div class="error" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" >Name error</div>
+        <input class="input-field login" type="text" th:field="*{surname}" th:placeholder="#{reg_and_reg-admin.placeholder_surname}" required minlength="2">
+        <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Name error</div>
+        <input class="input-field login" type="email" th:field="*{username}" placeholder="Email" required>
+        <p th:if="${usernameerror} == 'usernameerror'" class="error" th:text="#{form_errors.reg.usernameerror}"></p>
+        <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error</div>
+        <input class="input-field login" type="tel" th:field="*{phone}"  th:placeholder="#{reg_and_reg-admin.placeholder_phone}" required>
+        <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Name error</div>
+        <input class="input-field login" type="password" th:field="*{password}" th:placeholder="#{reg_and_reg-admin.placeholder_password}" required minlength="6">
+        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
+        <input class="input-field login" type="password"  name="passwordcopy"  th:placeholder="#{reg_and_reg-admin.placeholder_passwordcopy}">
+        <p th:if="${passworderror} == 'passworderror'" class="error" th:text="#{form_errors.reg.pass_copy_error}"></p>
+        <input class="input-field login" type="text" name="ownercode" th:placeholder="#{reg_admin.placeholder_ownercode}">
+        <p th:if="${errorownercode} == 'errorownercode'" class="error" th:text="#{form_errors.reg_admin.owner_code}"></p>
+
+        <button type="submit"><span th:text="#{reg_and_reg-admin.btn.reg}"></span></button>
+    </form>
+
+
+<!--    <form method="post" th:action="@{/reg-admin}">-->
+<!--        <input class="input-field login" type="text" name="firstname" th:placeholder="#{reg_and_reg-admin.placeholder_firstname}">-->
+<!--        <input class="input-field login" type="text" name="surname" th:placeholder="#{reg_and_reg-admin.placeholder_surname}">-->
+<!--        <input class="input-field login" type="email" name="username" placeholder="Email">-->
+<!--        <p class="error" th:text="${erroruser}"></p>-->
+<!--        <input class="input-field login" type="tel" name="phone" th:placeholder="#{reg_and_reg-admin.placeholder_phone}">-->
+<!--        <input class="input-field login" type="text" name="ownercode" th:placeholder="#{reg_admin.placeholder_ownercode}">-->
+<!--        <p class="error" th:text="${errorownercode}"></p>-->
+<!--        <input class="input-field login" type="password" name="password" th:placeholder="#{reg_and_reg-admin.placeholder_password}">-->
+<!--        <input class="input-field login" type="password" name="passwordcopy" th:placeholder="#{reg_and_reg-admin.placeholder_passwordcopy}">-->
+<!--        <p class="error" th:text="${error}"></p>-->
+<!--        <button type="submit"><span th:text="#{reg_and_reg-admin.btn.reg}"></span></button>-->
+<!--    </form>-->
+</main>
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

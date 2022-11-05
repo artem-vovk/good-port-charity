@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About us</title>
+
+    <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+    <div class="container">
+        <div class="container-about">
+            <div>
+                <h1><span class="logo">GoodPort</span><span th:text="#{about.h1_text}"></span></h1>
+                <th:block th:utext="#{about.text_about}"></th:block>
+                <p>Email: goodport.top@gmail.com</p>
+
+
+            </div>
+        </div>
+    </div>
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

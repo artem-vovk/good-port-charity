@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${item.title}"></title>
+
+    <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+
+    <script type="text/javascript" src="\webjars\jquery\3.6.1\jquery.min.js"></script>
+</head>
+    <script type="text/javascript">
+
+        //flipping photo
+        $(document).ready(function() {
+
+            //flipping next
+            $("#nextImage").bind("click", function () {
+                $.ajax ({
+                    url: "/page-details/next-img/" + $("#image-names").val(),
+                    type: "GET",
+                    //data: ({id: $("#item-id").val()}),
+                    dataType: "html",
+                    success: function (data) {
+                        //$("#result").text(data),
+                        $("#photo").html(data);
+                    }
+
+                });
+            });
+
+            //flipping prev
+            $("#prevImage").bind("click", function () {
+                $.ajax ({
+                    url: "/page-details/prev-img/" + $("#image-names").val(),
+                    type: "GET",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#photo").html(data);
+                    }
+
+                });
+            });
+        });
+
+
+    </script>
+<body>
+<div th:replace="layouts/header :: header"></div>
+<div class="container">
+    <div class="box-content">
+        <div class="box-image-slider">
+<!--            flipping photo-->
+<!--            show if user have uploaded photo-->
+            <div th:if="${item.getFirstImageName() != ''}" class="img-box-page-details img-wrapper-page-details" id="photo">
+                <img th:alt="${item.title}" th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${item.getFirstImageName()}"/>
+            </div>
+<!--            show if user das not have uploaded photo-->
+            <div th:if="${item.getFirstImageName() == ''}" class="img-box-page-details img-wrapper-page-details" id="photo">
+                <img th:src="@{/images/help.png}" alt="Help me"/>
+            </div>
+            <!-- show if user have uploaded photo-->
+            <div th:if="${showNavImg == 'showNavImg'}" class="img-control">
+                <img id="prevImage" th:src="@{/images/before.png}" alt="next-img">
+                <img id="nextImage" th:src="@{/images/next.png}" alt="prev-img">
+            </div>
+        </div>
+        <div class="box-info-page-details">
+            <h1 th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="h1-details" th:utext="${item.titleEn}"></h1>
+            <h1 th:if="${actualLocal == 'uk'}" class="h1-details" th:utext="${item.title}"></h1>
+            <h1 th:if="${actualLocal == 'en'}" class="h1-details" th:utext="${item.titleEn}"></h1>
+            <h1 th:if="${actualLocal == 'de'}" class="h1-details" th:utext="${item.titleDe}"></h1>
+            <h1 th:if="${actualLocal == 'pl'}" class="h1-details" th:utext="${item.titlePl}"></h1>
+            <h1 th:if="${actualLocal == 'ru'}" class="h1-details" th:utext="${item.titleRu}"></h1>
+
+            <p><span th:text="#{page_details.text_money}"></span> <span th:text="${item.price} + ' Euro'"></span></p>
+
+            <th:block th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" th:utext="${item.infoEn}"></th:block>
+            <th:block th:if="${actualLocal == 'uk'}" th:utext="${item.info}"></th:block>
+            <th:block th:if="${actualLocal == 'en'}" th:utext="${item.infoEn}"></th:block>
+            <th:block th:if="${actualLocal == 'de'}" th:utext="${item.infoDe}"></th:block>
+            <th:block th:if="${actualLocal == 'pl'}" th:utext="${item.infoPl}"></th:block>
+            <th:block th:if="${actualLocal == 'ru'}" th:utext="${item.infoRu}"></th:block>
+            <br><br><br>
+            <p><span th:text="#{page_details.text_author}"></span> <b th:text="${item.user.firstname}" /> <b th:text="${item.user.surname}" /></p>
+            <p><span th:text="#{page_details.text_email}"></span> <b th:text="${item.user.username}" /></p>
+<!--            only for admin-->
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <p>Роль: <b th:text="${item.user.role}" /></p>
+                <p th:text="'id: ' + ${item.id}"></p>
+                <p sec:authorize="hasAuthority('ADMIN')"><span th:text="#{page_details.text_date}"></span> <span th:text="${date}"></span></p>
+            </div>
+<!--            show if user have role ADMIN-->
+            <a th:href="'/page-details/' + ${item.id} + '/update'"
+               th:if="${item.user.username} == ${#authentication.name} OR ${#authorization.expression('hasAuthority(''ADMIN'')')}"><button><span th:text="#{page_details.btn.go_to_update}"></span></button></a>
+
+        </div>
+    </div>
+</div>
+
+<!--            hiding string for ajax and flipping photo-->
+<input style="visibility: hidden" id="image-names" th:value="${item.fileName}"/>
+
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

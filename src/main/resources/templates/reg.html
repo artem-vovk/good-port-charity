@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+    <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+<main class="container">
+    <br><br>
+    <h1 th:text="#{reg.h1}"></h1>
+    <form method="post" th:action="@{/reg}" th:object="${user}">
+        <input class="input-field login" type="text" th:field="*{firstname}" th:placeholder="#{reg_and_reg-admin.placeholder_firstname}" required minlength="2">
+            <div class="error" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" >Name error</div>
+        <input class="input-field login" type="text" th:field="*{surname}" th:placeholder="#{reg_and_reg-admin.placeholder_surname}" required minlength="2">
+            <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Name error</div>
+        <input class="input-field login" type="email" th:field="*{username}" placeholder="Email" required>
+            <p th:if="${usernameerror} == 'usernameerror'" class="error" th:text="#{form_errors.reg.usernameerror}"></p>
+            <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error</div>
+        <input class="input-field login" type="tel" th:field="*{phone}"  th:placeholder="#{reg_and_reg-admin.placeholder_phone}" required>
+            <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Name error</div>
+        <input class="input-field login" type="password" th:field="*{password}" th:placeholder="#{reg_and_reg-admin.placeholder_password}" required minlength="6">
+            <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
+        <input class="input-field login" type="password"  name="passwordcopy"  th:placeholder="#{reg_and_reg-admin.placeholder_passwordcopy}">
+            <p th:if="${passworderror} == 'passworderror'" class="error" th:text="#{form_errors.reg.pass_copy_error}"></p>
+
+        <button type="submit"><span th:text="#{reg_and_reg-admin.btn.reg}"></span></button>
+    </form>
+
+
+</main>
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

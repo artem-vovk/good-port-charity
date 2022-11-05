@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GoodPort - Help for everyone - international help portal</title>
+
+    <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+
+</script>
+
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+    <div class="full-box">
+        <div class="container">
+            <div class="in-container">
+                <div class="box_container">
+                    <div class="first_box_item first_box_item1">
+                        <h1 th:text="#{index_page.h1}"></h1>
+                        <h2 th:text="#{index_page.h2}"></h2>
+                        <p class="text-first" th:text="#{index_page.slogan}"></p>
+
+                            <li th:text="#{index_page.basic_instruct_1}"></li>
+                            <li th:text="#{index_page.basic_instruct_2}"></li>
+
+                    </div>
+                    <div class="first_box_item first_box_item2">
+                        <img class="img_in_first_box" th:src="@{/images/help.png}" alt="Help me"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart_container">
+
+        <div class="cart_item" th:each="el : ${pageItems.content}">
+            <div class="image_box">
+
+                <img th:if="${el.getFirstImageName() != ''}" th:alt="${el.title}" th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${el.getFirstImageName()}"/>
+
+                <img th:if="${el.getFirstImageName() == ''}" th:src="@{/images/help.png}" alt="Help me"/>
+
+            </div>
+            <div>
+                <p th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="cart_title" th:utext="${el.titleEn}"></p>
+                <p th:if="${actualLocal == 'uk'}" class="cart_title" th:utext="${el.title}"></p>
+                <p th:if="${actualLocal == 'en'}" class="cart_title" th:utext="${el.titleEn}"></p>
+                <p th:if="${actualLocal == 'de'}" class="cart_title" th:utext="${el.titleDe}"></p>
+                <p th:if="${actualLocal == 'pl'}" class="cart_title" th:utext="${el.titlePl}"></p>
+                <p th:if="${actualLocal == 'ru'}" class="cart_title" th:utext="${el.titleRu}"></p>
+            </div>
+            <div>
+                <a th:href="'/page-details/' + ${el.id}"><span th:text="#{index_page.kart_btn.more}"></span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!--    buttons for go to another pages-->
+        <ul class="pagination" th:if="${pageItems.totalPages > 0}">
+            <div th:each="pageNumber : ${numbers}" th:class="${pageNumber == pageItems.number} ? active-page-number">
+                <a th:href="@{'/?page=' + ${pageNumber}}" th:text="${pageNumber + 1}"></a>
+            </div>
+        </ul>
+    </div>
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

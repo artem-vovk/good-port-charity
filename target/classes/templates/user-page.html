@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User page</title>
+
+    <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+
+<div class="full-box">
+    <div class="container">
+        <div class="in-container paddings-for-infobox-userpage">
+            <form class="form_exit" method="post" th:action="@{/logout}">
+                <button type="submit"><span th:text="#{user_page.btn_exit}"></span></button>
+            </form>
+            <h1 th:text="#{user_page.h1}"></h1>
+            <p><b><span th:text="#{user_page.name}"/></b><span th:text="${authorName}"/></p>
+            <p><b><span>Login/Email:   </span></b><span sec:authentication="name"/></p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <br>
+    <br>
+    <h2 th:text="#{user_page.my_pages}"></h2>
+
+    <div class="container_for_items_userpage">
+
+        <div class="item-box-for-result" th:each="el : ${item}">
+            <!--            show if user have uploaded photo-->
+            <div class="image_box_userpage" th:if="${el.getFirstImageName() != ''}">
+                <img class="first_photo_for_userpage" th:alt="${el.title}" th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${el.getFirstImageName()}"/>
+            </div>
+            <!--            show if user have not uploaded photo-->
+            <div class="image_box_userpage" th:if="${el.getFirstImageName() == ''}">
+                <img class="first_photo_for_userpage" th:src="@{/images/help.png}" alt="Help me"/>
+            </div>
+            <div class="info_box_in_cart">
+                <b th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="title_in_cart" th:utext="${el.titleEn}"></b>
+                <b th:if="${actualLocal == 'uk'}" class="title_in_cart" th:utext="${el.title}"></b>
+                <b th:if="${actualLocal == 'en'}" class="title_in_cart" th:utext="${el.titleEn}"></b>
+                <b th:if="${actualLocal == 'de'}" class="title_in_cart" th:utext="${el.titleDe}"></b>
+                <b th:if="${actualLocal == 'pl'}" class="title_in_cart" th:utext="${el.titlePl}"></b>
+                <b th:if="${actualLocal == 'ru'}" class="title_in_cart" th:utext="${el.titleRu}"></b>
+                <p><span th:text="#{user_page.money}"></span> <span th:text="${el.price}"></span> Euro</p>
+            </div>
+            <div class="links_box_in_cart">
+
+                <a th:href="'/page-details/' + ${el.id} + '/update'"><button><span th:text="#{user_page.btn_go_to_update}"></span></button></a>
+                <a th:href="'/page-details/' + ${el.id}"><button><span th:text="#{user_page.btn_go_to_details}"></span></button></a>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

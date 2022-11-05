@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Error404</title>
+
+  <div th:replace="layouts/all-styles-fragment :: th:block"></div>
+</head>
+<body>
+<div th:replace="layouts/header :: header"></div>
+<main class="container">
+  <h1>Помилка 404</h1>
+  <p>Сторінка не існує</p>
+  <p>Поверніться на <a href="/" style="color: blue">головну</a> сторінку</p>
+</main>
+<div th:replace="layouts/footer :: footer"></div>
+</body>
+</html>

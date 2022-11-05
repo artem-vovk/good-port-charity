@@ -1,0 +1,134 @@
+
+@media screen and (max-width: 960px) {
+
+    .first_box_item1 {
+        flex-basis: 90%;
+      }
+
+
+    .first_box_item2 {
+        display: none;
+    }
+
+    .box_container {
+        padding-bottom: 20px;
+      }
+
+    .cart_item {
+        flex-basis: 45%;
+    }
+
+    .img-wrapper-page-details {
+        height: 300px;
+    }
+
+}
+
+
+@media screen and (max-width: 900px) {
+    .flex-item2-page-update {
+        max-width: 100%;
+        margin-left: 0px;
+    }
+
+    .form-item {
+        max-width: 800px;
+        min-width: 250px;
+    }
+
+    .box-content {
+        justify-content: center;
+    }
+}
+
+
+@media screen and (max-width: 870px) {
+
+    /*page-details.html*/
+    .box-image-slider {
+        flex-basis: 100%;
+        max-width: 400px;
+        justify-content:center;
+    }
+
+    .box-info-page-details {
+        margin-top: 2em;
+        flex-basis: 100%;
+        margin-left: 0px;
+      }
+
+      /*user-page.html*/
+      .links_box_in_cart {
+        margin-top: 0;
+      }
+}
+
+
+
+@media screen and (max-width: 600px) {
+
+    /*главная стр*/
+    .cart_item {
+        flex-basis: 80%;
+    }
+
+    /*юзер пейдж*/
+    .info_box_in_cart {
+        max-width: 90%;
+        margin-left: 1.5em;
+        margin-top: 2.7em;
+        padding-top: 0;
+    }
+
+    .first_photo_for_userpage {
+        margin-top: 1em;
+        margin-left: 1.5em;
+    }
+
+    /*юзер пейдж*/
+    .links_box_in_cart {
+        margin-top: 5px;
+        display: flex;
+        justify-content: left;
+        margin-left: 1.5em;
+      }
+
+      .image_box_userpage {
+        width: 8em;
+        height: 8em;
+}
+
+
+
+@media screen and (max-width: 420px) {
+
+    .links_box_in_cart {
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        margin-left: 1em;
+    }
+
+    .info_box_in_cart {
+        margin-left: 1em;
+    }
+
+    .first_photo_for_userpage {
+        width: 70%;
+        height: 8em;
+        margin-left: 0;
+      }
+
+      .links_box_in_cart a {
+        margin-bottom: 5px;
+      }
+
+      .image_box_userpage {
+        width: 100%;
+        height: 70%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+}

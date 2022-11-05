@@ -1,0 +1,17 @@
+
+<div class="dropdown" xmlns:th="http://www.thymeleaf.org" th:fragment="choice-language" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.thymeleaf.org ">
+    <a th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="dropbtn"><span th:text="#{header.lang_change}"></span>:<img class="icon-lang" th:src="@{/images/changeLanguage.png}" alt=""></a>
+    <a th:if="${actualLocal == 'uk'}" class="dropbtn"><span th:text="#{header.lang_change}"></span>:<img th:src="@{/images/ukFlag.png}" alt="">ua </a>
+    <a th:if="${actualLocal == 'en'}" class="dropbtn"><span th:text="#{header.lang_change}"></span>:<img th:src="@{/images/enFlag.png}" alt="">eng </a>
+    <a th:if="${actualLocal == 'de'}" class="dropbtn"><span th:text="#{header.lang_change}"></span>:<img th:src="@{/images/deFlag.png}" alt="">de </a>
+    <a th:if="${actualLocal == 'pl'}" class="dropbtn"><span th:text="#{header.lang_change}"></span>:<img th:src="@{/images/plFlag.png}" alt="">pl </a>
+    <a th:if="${actualLocal == 'ru'}" class="dropbtn"><span th:text="#{header.lang_change}"></span>:<img th:src="@{/images/ruFlag.png}" alt="">ru </a>
+    <div class="dropdown-content">
+        <a href="?lang=uk"><img th:src="@{/images/ukFlag.png}" alt="">     Українська</a>
+        <a href="?lang=en"><img th:src="@{/images/enFlag.png}" alt="">     English</a>
+        <a href="?lang=de"><img th:src="@{/images/deFlag.png}" alt="">     Deutsch</a>
+        <a href="?lang=pl"><img th:src="@{/images/plFlag.png}" alt="">     Polski</a>
+        <a href="?lang=ru"><img th:src="@{/images/ruFlag.png}" alt="">     Русский</a>
+    </div>
+</div>

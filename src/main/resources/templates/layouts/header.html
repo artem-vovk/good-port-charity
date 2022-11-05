@@ -1,0 +1,84 @@
+
+
+<header xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="header">
+    <div class="container nav-desktop">
+        <div class="in-container">
+            <div class="header-container">
+            <span class="logo">GoodPort</span>
+                <nav>
+                    <!--choice lang-->
+                    <div th:replace="layouts/choice-language :: div"></div>
+
+                    <a href="/" th:text="#{header.menu_link.main}"></a>
+                    <a href="/about" th:text="#{header.menu_link.about}"></a>
+                    <a href="/item/add-item" th:text="#{header.menu_link.create_page}"></a>
+
+                    <span sec:authorize="!isAuthenticated()">
+                        <a href="/login" th:text="#{header.menu_link.log_reg}"></a>
+                    </span>
+
+                    <span sec:authorize="isAuthenticated()">
+                        <a href="/user-page" th:text="#{header.menu_link.account}"></a>
+                    </span>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-mobile">
+        <div class="container">
+            <input id="responsive-menu" type="checkbox">
+            <label for="responsive-menu">GoodPort<span id="menu-icon"></span></label>
+            <div id="overlay"></div>
+                        <!-- Nav vor langueage-->
+                        <div th:replace="layouts/choice-language :: div"></div>
+            <ul>
+                <li><a href="/" th:text="#{header.menu_link.main}"></a></li>
+                <li><a href="/about" th:text="#{header.menu_link.about}"></a></li>
+                <li><a href="/item/add-item" th:text="#{header.menu_link.create_page}"></a></li>
+                <span sec:authorize="!isAuthenticated()">
+                    <li><a href="/login" th:text="#{header.menu_link.log_reg}"></a></li>
+                </span>
+
+                <span sec:authorize="isAuthenticated()">
+                    <li><a href="/user-page" th:text="#{header.menu_link.account}"></a></li>
+                </span>
+            </ul>
+
+<!--            <ul id="social-media">-->
+<!--                <li>-->
+<!--                    <a href="https://dribbble.com/erinesullivan">-->
+<!--                        <i class="fab fa-dribbble"></i>-->
+<!--                        <span class="screen-reader-text">Dribbble</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="http://codepen.io/erinesullivan/">-->
+<!--                        <i class="fab fa-codepen"></i>-->
+<!--                        <span class="screen-reader-text">CodePen</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="https://twitter.com/erin_e_sullivan">-->
+<!--                        <i class="fab fa-twitter"></i>-->
+<!--                        <span class="screen-reader-text">Twitter</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="https://www.linkedin.com/in/erinesullivan1">-->
+<!--                        <i class="fab fa-linkedin"></i>-->
+<!--                        <span class="screen-reader-text">LinkedIn</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="https://www.instagram.com/erin_e_sullivan/">-->
+<!--                        <i class="fab fa-instagram"></i>-->
+<!--                        <span class="screen-reader-text">Instagram</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+        </div>
+    </nav>
+
+</header>
