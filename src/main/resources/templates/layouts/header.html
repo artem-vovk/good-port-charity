@@ -37,13 +37,13 @@
                 <li><a href="/" th:text="#{header.menu_link.main}"></a></li>
                 <li><a href="/about" th:text="#{header.menu_link.about}"></a></li>
                 <li><a href="/item/add-item" th:text="#{header.menu_link.create_page}"></a></li>
-                <span sec:authorize="!isAuthenticated()">
-                    <li><a href="/login" th:text="#{header.menu_link.log_reg}"></a></li>
-                </span>
+<!--                <span sec:authorize="!isAuthenticated()">-->
+                <li sec:authorize="!isAuthenticated()"><a href="/login" th:text="#{header.menu_link.log_reg}"></a></li>
+<!--                </span>-->
 
-                <span sec:authorize="isAuthenticated()">
-                    <li><a href="/user-page" th:text="#{header.menu_link.account}"></a></li>
-                </span>
+<!--                <span sec:authorize="isAuthenticated()">-->
+                <li sec:authorize="isAuthenticated()"><a href="/user-page" th:text="#{header.menu_link.account}"></a></li>
+<!--                </span>-->
             </ul>
 
 <!--            <ul id="social-media">-->

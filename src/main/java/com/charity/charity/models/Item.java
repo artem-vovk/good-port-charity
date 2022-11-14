@@ -52,7 +52,6 @@ public class Item {
     private String titleRu;
 
 
-
     @Size(max = 7000, message = "Максимальний размір тексту 4000 символів")
     @Column(columnDefinition="LONGTEXT", length=20000)
     private String info; //default language - Ukrainian
@@ -73,6 +72,18 @@ public class Item {
     @Column(columnDefinition="LONGTEXT", length=20000)
     private String infoRu;
 
+
+    @Size(min = 1, message = "Выберите страну")
+    private String country;
+
+    @Size(min = 1, message = "Выберите тип")
+    private String type;
+
+    @Size(min = 1, message = "Выберите категорию")
+    private String category;
+
+
+
     public Item() {
     }
 
@@ -87,6 +98,18 @@ public class Item {
         this.price = price;
         this.title = title;
         this.info = ReversoContext.reversoContext(info);
+    }
+
+    //конструктор для полей - для фильтрации
+    public Item(String title, int price, String info, String country, String type, String category) {
+        this.price = price;
+        this.title = title;
+        this.info = ReversoContext.reversoContext(info);
+        this.country = country;
+        this.type = type;
+        this.category = category;
+
+
     }
 
 
@@ -231,8 +254,31 @@ public class Item {
         this.id = id;
     }
 
+    public String getCountry() {
+        return country;
+    }
 
-//    public String reversoContext(String str){
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    //    public String reversoContext(String str){
 //        String revStr = str.replace("<", "&lt;")
 //                .replace(">", "&gt;")
 //                .replace("'", "&#39;")

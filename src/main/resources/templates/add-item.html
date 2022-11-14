@@ -45,6 +45,43 @@
             <input class="input-field" type="text" th:field="*{title}" th:placeholder="#{add_item.form.placeholder_title}" required minlength="80" maxlength="250">
             <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Name error</div>
 
+            <label>Страна</label>
+            <select class="input-field" type="text" th:field="*{country}">
+                <option value=""></option>
+                <option th:each="i : ${optionsCountry}" th:value="${'param.country.' + i}" th:text="#{param.country.__${i}__}"></option>
+
+
+            </select>
+            <div class="error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Name error</div>
+
+            <label>Тип</label>
+            <select class="input-field" type="text" th:field="*{type}">
+                <option value=""></option>
+                <option value="param.type.Offer" th:selected="${'param.type.Offer'==filtertype}"><span th:text="#{param.type.Offer}"></span></option>
+                <option value="param.type.Need" th:selected="${'param.type.Need'==filtertype}"><span th:text="#{param.type.Need}"></span></option>
+            </select>
+            <div class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name error</div>
+
+            <label>Категория</label>
+            <select class="input-field" type="text" th:field="*{category}">
+                <option value=""></option>
+                <option value="empty" th:selected="${'empty'==filtertype}"><span th:text="#{param.category.empty}"></span></option>
+                <option value="param.category.Healthandmedicine" th:selected="${'param.category.Healthandmedicine'==filtercategory}"><span th:text="#{param.category.Healthandmedicine}"></span></option>
+                <option value="param.category.Housing" th:selected="${'param.category.Housing'==filtercategory}"><span th:text="#{param.category.Housing}"></span></option>
+                <option value="param.category.Transportationofpeopleandgoods" th:selected="${'param.category.Transportationofpeopleandgoods'==filtercategory}"><span th:text="#{param.category.Transportationofpeopleandgoods}"></span></option>
+                <option value="param.category.humanitarianaid" th:selected="${'param.category.humanitarianaid'==filtercategory}"><span th:text="#{param.category.humanitarianaid}"></span></option>
+                <option value="param.category.Volunteering" th:selected="${'param.category.Volunteering'==filtercategory}"><span th:text="#{param.category.Volunteering}"></span></option>
+                <option value="param.category.Cultureandart" th:selected="${'param.category.Cultureandart'==filtercategory}"><span th:text="#{param.category.Cultureandart}"></span></option>
+                <option value="param.category.Soprt" th:selected="${'param.category.Soprt'==filtercategory}"><span th:text="#{param.category.Soprt}"></span></option>
+                <option value="param.category.carefortheelderly" th:selected="${'param.category.carefortheelderly'==filtercategory}"><span th:text="#{param.category.carefortheelderly}"></span></option>
+                <option value="param.category.Scienceandeducation" th:selected="${'param.category.Scienceandeducation'==filtercategory}"><span th:text="#{param.category.Scienceandeducation}"></span></option>
+                <option value="param.category.Enviromentprotection" th:selected="${'param.category.Enviromentprotection'==filtercategory}"><span th:text="#{param.category.Enviromentprotection}"></span></option>
+                <option value="param.category.Sponsorship" th:selected="${'param.category.Sponsorship'==filtercategory}"><span th:text="#{param.category.Sponsorship}"></span></option>
+                <option value="param.category.HelpUkrainianarmy" th:selected="${'param.category.HelpUkrainianarmy'==filtercategory}"><span th:text="#{param.category.HelpUkrainianarmy}"></span></option>
+                <option value="param.category.Other" th:selected="${'param.category.Other'==filtercategory}"><span th:text="#{param.category.Other}"></span></option>
+            </select>
+            <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Name error</div>
+
             <label th:text="#{add_item.form.label_money}"></label>
             <input class="input-field" type="number" th:field="*{price}" required maxlength="11" value="0">
             <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Name error</div>
@@ -55,25 +92,6 @@
             <div class="error" th:if="${#fields.hasErrors('info')}" th:errors="*{info}">Name error</div>
             <br>
             <button type="submit"><span th:text="#{add_item.btn.save}"></span></button>
-
-
-<!--            <p th:if="${error == 'fieldnull'}" class="error" th:text="#{add_item.error.write_all}"></p>-->
-
-<!--            <label th:text="#{add_item.form.label_title}"></label>-->
-<!--            <input class="input-field" type="text" name="title" th:placeholder="#{add_item.form.placeholder_title}" maxlength="250">-->
-<!--            <p th:if="${error == 'titlelength'}" class="error" th:text="#{add_item.error.length_title}"></p>-->
-
-<!--            <label th:text="#{add_item.form.label_money}"></label>-->
-<!--            <input class="input-field" type="number" name="price"  maxlength="11" value="0">-->
-<!--                <p th:if="${error == 'titlelength'}" class="error" th:text="#{add_item.error.length_title}"></p>-->
-
-<!--            <label th:text="#{add_item.form.label_text}"></label>-->
-<!--            <br>-->
-<!--            <textarea id="info" name="info" ></textarea>-->
-<!--            <p th:if="${error == 'titlelength'}" class="error" th:text="#{add_item.error.length_title}"></p>-->
-<!--            <br>-->
-<!--            <button type="submit"><span th:text="#{add_item.btn.save}"></span></button>-->
-
 
         </form>
 

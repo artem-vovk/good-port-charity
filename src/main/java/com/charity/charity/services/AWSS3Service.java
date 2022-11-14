@@ -38,7 +38,7 @@ public class AWSS3Service implements FileService{
 
 		//For upload in heroku need to use path - "/tmp"
 		//For upload in local server need to use path - "/static"
-			File tempFile = new File("/static", key);
+			File tempFile = new File("/tmp", key);
 		try {
 			//make file less
 			Thumbnails.of(file.getInputStream()).size(800, 800).toFile(tempFile);

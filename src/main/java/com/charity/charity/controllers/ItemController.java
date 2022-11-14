@@ -5,6 +5,7 @@ import com.charity.charity.models.User;
 import com.charity.charity.repositirys.ItemRepository;
 import com.charity.charity.repositirys.UserRepository;
 import com.charity.charity.services.AWSS3Service;
+import com.charity.charity.services.ArrayWithFiltersOptions;
 import com.charity.charity.services.TranslateCustomTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +56,9 @@ public class ItemController implements WebMvcConfigurer {
         String localeStr = locale.getLanguage();
         model.addAttribute("actualLocal", localeStr);
 
+        List<String> optionsCountry = ArrayWithFiltersOptions.optionsCountry();
+        model.addAttribute("optionsCountry", optionsCountry);
+
         Item item = new Item("", 0, "");
         model.addAttribute("item", item);
 
@@ -75,6 +79,9 @@ public class ItemController implements WebMvcConfigurer {
             modelAndView.addObject("item", item);
             String localeStr = locale.getLanguage();
             modelAndView.addObject("actualLocal", locale.getLanguage());
+            List<String> optionsCountry = ArrayWithFiltersOptions.optionsCountry();
+            modelAndView.addObject("optionsCountry", optionsCountry);
+
             return modelAndView;
         } else {
 
@@ -152,6 +159,9 @@ public class ItemController implements WebMvcConfigurer {
         Item item = itemRepository.findById(id).orElse(new Item());
         model.addAttribute("item", item);
 
+        List<String> optionsCountry = ArrayWithFiltersOptions.optionsCountry();
+        model.addAttribute("optionsCountry", optionsCountry);
+
         String allFileNames = item.getFileName();
         String[] arrayImageNames = getArrayImageName(allFileNames);
         model.addAttribute("arrayImageNames", arrayImageNames);
@@ -189,11 +199,17 @@ public class ItemController implements WebMvcConfigurer {
             modelAndView.addObject("item", item);
             modelAndView.addObject("arrayImageNames", getArrayImageName(item.getFileName()));
 
+            List<String> optionsCountry = ArrayWithFiltersOptions.optionsCountry();
+            modelAndView.addObject("optionsCountry", optionsCountry);
+
             return modelAndView;
         } else {
 
             Item oldItem = itemRepository.findById(id).orElse(new Item());
             oldItem.setPrice(item.getPrice());
+            oldItem.setCountry(item.getCountry());
+            oldItem.setType(item.getType());
+            oldItem.setCategory(item.getCategory());
             if (loc.equals("uk"))
                 translateAndSetToDB(oldItem, item.getTitle(), item.getInfo());
             if (loc.equals("en"))
@@ -204,6 +220,8 @@ public class ItemController implements WebMvcConfigurer {
                 translateAndSetToDB(oldItem, item.getTitlePl(), item.getInfoPl());
             if (loc.equals("ru"))
                 translateAndSetToDB(oldItem, item.getTitleRu(), item.getInfoRu());
+
+
 
             itemRepository.save(oldItem);
 
@@ -397,7 +415,7 @@ public class ItemController implements WebMvcConfigurer {
     }
 
 
-    //Temp/service method (without translate and saving into DB)
+    //service method (without translate and saving into DB)
     //it needs for modelAndView (errors/form validation)
     private void putTextIntoAllFields(Item item, String loc) {
 

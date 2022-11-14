@@ -6,8 +6,7 @@
 
     <div th:replace="layouts/all-styles-fragment :: th:block"></div>
 
-</script>
-
+    <script src="js/jquery-2.2.3.min.js"></script>
 </head>
 <body>
 <div th:replace="layouts/header :: header"></div>
@@ -18,10 +17,14 @@
                     <div class="first_box_item first_box_item1">
                         <h1 th:text="#{index_page.h1}"></h1>
                         <h2 th:text="#{index_page.h2}"></h2>
-                        <p class="text-first" th:text="#{index_page.slogan}"></p>
-
-                            <li th:text="#{index_page.basic_instruct_1}"></li>
-                            <li th:text="#{index_page.basic_instruct_2}"></li>
+<!--                        <p class="text-first" th:text="#{index_page.slogan}"></p>-->
+                        <p class="text-first" th:text="#{index_page.basic_instruct_0}"></p>
+                        <Li th:text="#{index_page.basic_instruct_1}"></Li>
+                        <li th:text="#{index_page.basic_instruct_2}"></li>
+                        <br>
+                        <b th:text="#{index_page.basic_instruct_3}"></b>
+<!--                        <li th:text="#{index_page.basic_instruct_1}"></li>-->
+<!--                        <li th:text="#{index_page.basic_instruct_2}"></li>-->
 
                     </div>
                     <div class="first_box_item first_box_item2">
@@ -31,6 +34,42 @@
             </div>
         </div>
     </div>
+
+<div class="filter container">
+    <form method="post" th:action="@{/filter}">
+<!--        rfr-nj yfcnhjbnm -->
+<!--        <select th:if="${filter-country != 'empty'}" id="country" name="country" th:value="${filter-country}">-->
+        <select class="country"  id="country" name="country">
+<!--            сделать невозможным выбор этого пункта из списка-->
+            <option value="empty" ><span th:text="#{param.country.Choice}"></span></option>
+            <option th:each="i : ${optionsCountry}" th:value="${'param.country.' + i}" th:text="#{param.country.__${i}__}" th:selected="${'param.country.' + i==filtercountry}"></option>
+        </select>
+        <select name="type">
+            <option value="empty"><span th:text="#{param.type.empty}"></span></option>
+            <option value="param.type.Offer" th:selected="${'param.type.Offer'==filtertype}"><span th:text="#{param.type.Offer}"></span></option>
+            <option value="param.type.Need" th:selected="${'param.type.Need'==filtertype}"><span th:text="#{param.type.Need}"></span></option>
+        </select>
+        <select name="category">
+            <option value="empty" th:selected="${'empty'==filtertype}"><span th:text="#{param.category.empty}"></span></option>
+            <option value="param.category.Healthandmedicine" th:selected="${'param.category.Healthandmedicine'==filtercategory}"><span th:text="#{param.category.Healthandmedicine}"></span></option>
+            <option value="param.category.Housing" th:selected="${'param.category.Housing'==filtercategory}"><span th:text="#{param.category.Housing}"></span></option>
+            <option value="param.category.Transportationofpeopleandgoods" th:selected="${'param.category.Transportationofpeopleandgoods'==filtercategory}"><span th:text="#{param.category.Transportationofpeopleandgoods}"></span></option>
+            <option value="param.category.humanitarianaid" th:selected="${'param.category.humanitarianaid'==filtercategory}"><span th:text="#{param.category.humanitarianaid}"></span></option>
+            <option value="param.category.Volunteering" th:selected="${'param.category.Volunteering'==filtercategory}"><span th:text="#{param.category.Volunteering}"></span></option>
+            <option value="param.category.Cultureandart" th:selected="${'param.category.Cultureandart'==filtercategory}"><span th:text="#{param.category.Cultureandart}"></span></option>
+            <option value="param.category.Soprt" th:selected="${'param.category.Soprt'==filtercategory}"><span th:text="#{param.category.Soprt}"></span></option>
+            <option value="param.category.carefortheelderly" th:selected="${'param.category.carefortheelderly'==filtercategory}"><span th:text="#{param.category.carefortheelderly}"></span></option>
+            <option value="param.category.Scienceandeducation" th:selected="${'param.category.Scienceandeducation'==filtercategory}"><span th:text="#{param.category.Scienceandeducation}"></span></option>
+            <option value="param.category.Enviromentprotection" th:selected="${'param.category.Enviromentprotection'==filtercategory}"><span th:text="#{param.category.Enviromentprotection}"></span></option>
+            <option value="param.category.Sponsorship" th:selected="${'param.category.Sponsorship'==filtercategory}"><span th:text="#{param.category.Sponsorship}"></span></option>
+            <option value="param.category.HelpUkrainianarmy" th:selected="${'param.category.HelpUkrainianarmy'==filtercategory}"><span th:text="#{param.category.HelpUkrainianarmy}"></span></option>
+            <option value="param.category.Other" th:selected="${'param.category.Other'==filtercategory}"><span th:text="#{param.category.Other}"></span></option>
+        </select>
+        <button class="btn-filter" type="submit" th:text="#{index_page.filter.btn.search}"></button>
+        <a class="filter-btn-cancel" href="/" th:text="#{index_page.filter.btn.cancel}"></a>    
+    </form>
+</div>
+<a name="carts"></a>
 
     <div class="cart_container">
 
@@ -60,10 +99,18 @@
         <!--    buttons for go to another pages-->
         <ul class="pagination" th:if="${pageItems.totalPages > 0}">
             <div th:each="pageNumber : ${numbers}" th:class="${pageNumber == pageItems.number} ? active-page-number">
-                <a th:href="@{'/?page=' + ${pageNumber}}" th:text="${pageNumber + 1}"></a>
+                <a th:href="@{'/?page=' + ${pageNumber} + '&type=' + ${filtertype} + '&country=' + ${filtercountry} + '&category=' + ${filtercategory} + '#carts'}" th:text="${pageNumber + 1}"></a>
             </div>
         </ul>
     </div>
 <div th:replace="layouts/footer :: footer"></div>
+
+<!--Sort for select options-->
+<script>
+        document.querySelectorAll('#country').forEach(sel=>{
+            [...sel.children].sort((a,b)=> a.text > b.text ? 1 : a.text < b.text ? -1 : 0).forEach(el=>sel.appendChild(el));
+        });
+    </script>
 </body>
+
 </html>

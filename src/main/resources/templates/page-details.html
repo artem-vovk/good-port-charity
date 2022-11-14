@@ -72,8 +72,12 @@
             <h1 th:if="${actualLocal == 'pl'}" class="h1-details" th:utext="${item.titlePl}"></h1>
             <h1 th:if="${actualLocal == 'ru'}" class="h1-details" th:utext="${item.titleRu}"></h1>
 
+            <p th:text="#{page_details.text_type} + ': ' + #{__${item.type}__}"></p>
             <p><span th:text="#{page_details.text_money}"></span> <span th:text="${item.price} + ' Euro'"></span></p>
-
+            <p th:text="#{page_details.text_category} + ': ' + #{__${item.category}__}"></p>
+            <p th:text="#{page_details.text_country} + ': ' + #{__${item.country}__}"></p>
+            <br>
+            <br>
             <th:block th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" th:utext="${item.infoEn}"></th:block>
             <th:block th:if="${actualLocal == 'uk'}" th:utext="${item.info}"></th:block>
             <th:block th:if="${actualLocal == 'en'}" th:utext="${item.infoEn}"></th:block>

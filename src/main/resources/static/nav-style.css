@@ -199,6 +199,7 @@
     nav ul a {
         color: #1d1f20!important;
         text-decoration: none;
+        line-height: 1.7em;
     }
 
     nav ul a:hover {
