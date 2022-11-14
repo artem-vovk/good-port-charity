@@ -98,13 +98,6 @@ public class MainController {
 
         link += "#carts";
 
-//        System.out.println("Метод пост" + country + type +  category + "ЛИНК" + link);
-
-//        	System.setProperty("file.encoding","UTF-8");
-//		Field charset = DocumentProperties.Charset.class.getDeclaredField("defaultCharset");
-//		charset.setAccessible(true);
-//		charset.set(null,null);
-
         return "redirect:" + link;
 
     }
