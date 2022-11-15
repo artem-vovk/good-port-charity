@@ -65,7 +65,7 @@
             <label>Категория</label>
             <select class="input-field" type="text" th:field="*{category}">
                 <option value=""></option>
-                <option value="empty" th:selected="${'empty'==filtertype}"><span th:text="#{param.category.empty}"></span></option>
+<!--                <option value="empty" th:selected="${'empty'==filtertype}"><span th:text="#{param.category.empty}"></span></option>-->
                 <option value="param.category.Healthandmedicine" th:selected="${'param.category.Healthandmedicine'==filtercategory}"><span th:text="#{param.category.Healthandmedicine}"></span></option>
                 <option value="param.category.Housing" th:selected="${'param.category.Housing'==filtercategory}"><span th:text="#{param.category.Housing}"></span></option>
                 <option value="param.category.Transportationofpeopleandgoods" th:selected="${'param.category.Transportationofpeopleandgoods'==filtercategory}"><span th:text="#{param.category.Transportationofpeopleandgoods}"></span></option>
