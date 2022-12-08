@@ -41,6 +41,8 @@
     <main class="container">
         <br>
         <h1 th:text="#{page_update.h1}"></h1>
+        <p th:if="${statusupdate} == 'statusupdate'" class="error" th:text="#{form_result.update_item}"></p>
+        <a th:if="${statusupdate} == 'statusupdate'" th:href="@{'/page-details/' + ${item.id}}"><button><span th:text="#{page-update.btn.go_to_page_details}"></span></button></a>
         <div class="flex-container-page-update">
             <div class="flex-item1-page-update">
                 <form class="form-item" method="post"  th:action="@{'/page-details/' + ${item.id} + '/update'}" th:object="${item}">
@@ -124,6 +126,7 @@
                     </label>
                     <p th:if="${errorformatfile} == 'errorformatfile'" class="error" th:text="#{form_errors.reg_admin.error_format_file}"></p>
                     <p th:if="${limitfile} == 'limitfile'" class="error" th:text="#{form_errors.reg_admin.size_of_upload_file}"></p>
+                    <p th:if="${bigfile} == 'bigfile'" class="error" th:text="#{form_errors.reg_admin.size_of_upload_file}"></p>
 <!--                    <br>-->
                     <button type="submit"><span th:text="#{page-update.btn.upload_photo}"></span></button>
                 </form>

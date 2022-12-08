@@ -27,6 +27,7 @@
 @media screen and (max-width: 1009px) {
     .img_in_first_box {
         max-width: 350px;
+        top: 22px;
     }
 
     .first_box_item1 {

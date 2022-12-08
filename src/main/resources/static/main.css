@@ -20,7 +20,7 @@ but this file.css works now and I don`t want to fix it
 }
 
 h1 {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
     font-weight: 300;
     font: 2em/1 'Montserrat', sans-serif;
 }
@@ -34,7 +34,7 @@ h1 {
 }
 
 h2 {
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     font-size: 1.2em;
 }
 
@@ -189,7 +189,7 @@ button:hover {
 .img_in_first_box {
     max-width: 380px;
     position: relative;
-    top: 4px;
+    top: 6px;
 }
 
 

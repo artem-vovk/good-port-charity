@@ -143,6 +143,7 @@ public class ItemController implements WebMvcConfigurer {
 
     @GetMapping("/page-details/{id}/update")
     public String showPageDetailsUpdate(@RequestParam(name = "error", defaultValue = "", required = false) String error,
+                                        @RequestParam(name = "statusupdate", defaultValue = "", required = false) String statusupdate,
                                         @PathVariable(value = "id") long id,
                                         Model model,
                                         Locale locale) {
@@ -150,6 +151,12 @@ public class ItemController implements WebMvcConfigurer {
             model.addAttribute("errorformatfile", "errorformatfile");
         } else if (error.equals("limitfile")) {
             model.addAttribute("limitfile", "limitfile");
+        } else if (error.equals("bigfile")) {
+            model.addAttribute("bigfile", "bigfile");
+        }
+
+        if (statusupdate.equals("true")) {
+            model.addAttribute("statusupdate", "statusupdate");
         }
 
         //get actual local/language
@@ -225,7 +232,7 @@ public class ItemController implements WebMvcConfigurer {
 
             itemRepository.save(oldItem);
 
-            return "redirect:/page-details/" + id + "/update";
+            return "redirect:/page-details/" + id + "/update?statusupdate=true";
         }
 
     }
@@ -316,10 +323,6 @@ public class ItemController implements WebMvcConfigurer {
 
                 item.setFileName(newFileName);
                 itemRepository.save(item);
-
-                //for feature
-                oldFileName = null;
-                newFileName = null;
 
                 return "redirect:/page-details/" + id + "/update#uploadfile";
             }
