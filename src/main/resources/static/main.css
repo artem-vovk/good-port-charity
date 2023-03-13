@@ -28,8 +28,8 @@ h1 {
 
 .h1-details {
     margin-bottom: 1em;
-    font-size: 1.2em;
-    font-weight: 500;
+    font-size: 1.5em;
+    font-weight: 600;
     line-height: 1.5em;
 }
 
@@ -50,7 +50,11 @@ h3 {
 }
 
 p {
-    margin-bottom: 0.9em;
+    margin-bottom: 0.5em;
+}
+
+.param p {
+    margin-bottom: 0.3em;
 }
 
 b {
@@ -452,6 +456,9 @@ form textarea {
     
 }
 
+.box-info-page-details p {
+    font-width: 400;
+}
 
 
 /*for page-update.html */
@@ -556,7 +563,8 @@ label.myLabel input[type="file"] {
     color: #A44;
 }
 .myLabel :valid + span {
-    color: rgba(120, 193, 86, 0.85);
+    color: rgb(117, 117, 117);
+    background: rgb(57 118 27 / 85%);
 }
 
 

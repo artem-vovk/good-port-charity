@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
     <title>User page</title>
@@ -22,6 +23,7 @@
         </div>
     </div>
 </div>
+
 <div class="container">
     <br>
     <br>
@@ -29,29 +31,44 @@
 
     <div class="container_for_items_userpage">
 
-        <div class="item-box-for-result" th:each="el : ${item}">
+        <div class="item-box-for-result" th:each="el : ${items}">
             <!--            show if user have uploaded photo-->
             <div class="image_box_userpage" th:if="${el.getFirstImageName() != ''}">
-                <img class="first_photo_for_userpage" th:alt="${el.title}" th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${el.getFirstImageName()}"/>
+                <img class="first_photo_for_userpage" th:alt="${el.originTitle}"
+                     th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${el.getFirstImageName()}"/>
             </div>
+
             <!--            show if user have not uploaded photo-->
             <div class="image_box_userpage" th:if="${el.getFirstImageName() == ''}">
                 <img class="first_photo_for_userpage" th:src="@{/images/help.png}" alt="Help me"/>
             </div>
-            <div class="info_box_in_cart">
-                <b th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="title_in_cart" th:utext="${el.titleEn}"></b>
-                <b th:if="${actualLocal == 'uk'}" class="title_in_cart" th:utext="${el.title}"></b>
-                <b th:if="${actualLocal == 'en'}" class="title_in_cart" th:utext="${el.titleEn}"></b>
-                <b th:if="${actualLocal == 'de'}" class="title_in_cart" th:utext="${el.titleDe}"></b>
-                <b th:if="${actualLocal == 'pl'}" class="title_in_cart" th:utext="${el.titlePl}"></b>
-                <b th:if="${actualLocal == 'ru'}" class="title_in_cart" th:utext="${el.titleRu}"></b>
-                <p><span th:text="#{user_page.money}"></span> <span th:text="${el.price}"></span> Euro</p>
-            </div>
+
+            <!--            show original custom text-->
+            <th:block th:if="${el.originLanguage} == ${actualLocal}">
+                <div class="info_box_in_cart">
+                    <b class="title_in_cart" th:utext="${el.originTitle}"></b>
+                    <p><span th:text="#{user_page.money}"></span> <span th:text="${el.price}"></span> Euro</p>
+                </div>
+            </th:block>
+
+            <!--            show translation-->
+            <th:block th:each="customInfo : ${el.customInfos}">
+                <th:block th:if="${customInfo.contentName} == 'Title' AND ${customInfo.language} == ${actualLocal}">
+                    <div class="info_box_in_cart">
+                        <b class="title_in_cart" th:utext="${customInfo.translation}"></b>
+                        <!--Code string below is duplicated. I will change it later because it needs changing style, but now I don`t want to spend time for this-->
+                        <p><span th:text="#{user_page.money}"></span> <span th:text="${el.price}"></span> Euro</p>
+                    </div>
+                </th:block>
+            </th:block>
+
             <div class="links_box_in_cart">
-
-                <a th:href="'/page-details/' + ${el.id} + '/update'"><button><span th:text="#{user_page.btn_go_to_update}"></span></button></a>
-                <a th:href="'/page-details/' + ${el.id}"><button><span th:text="#{user_page.btn_go_to_details}"></span></button></a>
-
+                <a th:href="'/page-details/' + ${el.id} + '/update'">
+                    <button><span th:text="#{user_page.btn_go_to_update}"></span></button>
+                </a>
+                <a th:href="'/page-details/' + ${el.id}">
+                    <button><span th:text="#{user_page.btn_go_to_details}"></span></button>
+                </a>
             </div>
 
         </div>

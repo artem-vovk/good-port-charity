@@ -250,4 +250,24 @@ public class ArrayWithFiltersOptions {
 
     }
 
+
+    public static List<String> optionsCategory(){
+        List<String> optionsCategory = new ArrayList<>();
+        optionsCategory.add("Healthandmedicine");
+        optionsCategory.add("Housing");
+        optionsCategory.add("Transportationofpeopleandgoods");
+        optionsCategory.add("humanitarianaid");
+        optionsCategory.add("Volunteering");
+        optionsCategory.add("Cultureandart");
+        optionsCategory.add("Soprt");
+        optionsCategory.add("carefortheelderly");
+        optionsCategory.add("Scienceandeducation");
+        optionsCategory.add("Enviromentprotection");
+        optionsCategory.add("Sponsorship");
+        optionsCategory.add("HelpUkrainianarmy");
+        optionsCategory.add("Other");
+
+        return optionsCategory;
+    }
+
 }

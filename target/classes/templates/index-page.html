@@ -37,10 +37,7 @@
 
 <div class="filter container">
     <form method="post" th:action="@{/filter}">
-<!--        rfr-nj yfcnhjbnm -->
-<!--        <select th:if="${filter-country != 'empty'}" id="country" name="country" th:value="${filter-country}">-->
         <select class="country"  id="country" name="country">
-<!--            сделать невозможным выбор этого пункта из списка-->
             <option value="empty" ><span th:text="#{param.country.Choice}"></span></option>
             <option th:each="i : ${optionsCountry}" th:value="${'param.country.' + i}" th:text="#{param.country.__${i}__}" th:selected="${'param.country.' + i==filtercountry}"></option>
         </select>
@@ -51,19 +48,7 @@
         </select>
         <select name="category">
             <option value="empty" th:selected="${'empty'==filtertype}"><span th:text="#{param.category.empty}"></span></option>
-            <option value="param.category.Healthandmedicine" th:selected="${'param.category.Healthandmedicine'==filtercategory}"><span th:text="#{param.category.Healthandmedicine}"></span></option>
-            <option value="param.category.Housing" th:selected="${'param.category.Housing'==filtercategory}"><span th:text="#{param.category.Housing}"></span></option>
-            <option value="param.category.Transportationofpeopleandgoods" th:selected="${'param.category.Transportationofpeopleandgoods'==filtercategory}"><span th:text="#{param.category.Transportationofpeopleandgoods}"></span></option>
-            <option value="param.category.humanitarianaid" th:selected="${'param.category.humanitarianaid'==filtercategory}"><span th:text="#{param.category.humanitarianaid}"></span></option>
-            <option value="param.category.Volunteering" th:selected="${'param.category.Volunteering'==filtercategory}"><span th:text="#{param.category.Volunteering}"></span></option>
-            <option value="param.category.Cultureandart" th:selected="${'param.category.Cultureandart'==filtercategory}"><span th:text="#{param.category.Cultureandart}"></span></option>
-            <option value="param.category.Soprt" th:selected="${'param.category.Soprt'==filtercategory}"><span th:text="#{param.category.Soprt}"></span></option>
-            <option value="param.category.carefortheelderly" th:selected="${'param.category.carefortheelderly'==filtercategory}"><span th:text="#{param.category.carefortheelderly}"></span></option>
-            <option value="param.category.Scienceandeducation" th:selected="${'param.category.Scienceandeducation'==filtercategory}"><span th:text="#{param.category.Scienceandeducation}"></span></option>
-            <option value="param.category.Enviromentprotection" th:selected="${'param.category.Enviromentprotection'==filtercategory}"><span th:text="#{param.category.Enviromentprotection}"></span></option>
-            <option value="param.category.Sponsorship" th:selected="${'param.category.Sponsorship'==filtercategory}"><span th:text="#{param.category.Sponsorship}"></span></option>
-            <option value="param.category.HelpUkrainianarmy" th:selected="${'param.category.HelpUkrainianarmy'==filtercategory}"><span th:text="#{param.category.HelpUkrainianarmy}"></span></option>
-            <option value="param.category.Other" th:selected="${'param.category.Other'==filtercategory}"><span th:text="#{param.category.Other}"></span></option>
+            <option th:each="i : ${optionsCategory}" th:value="${'param.category.' + i}" th:text="#{param.category.__${i}__}" th:selected="${'param.category.' + i==filtercategory}"></option>
         </select>
         <button class="btn-filter" type="submit" th:text="#{index_page.filter.btn.search}"></button>
         <a class="filter-btn-cancel" href="/" th:text="#{index_page.filter.btn.cancel}"></a>    
@@ -76,19 +61,26 @@
         <div class="cart_item" th:each="el : ${pageItems.content}">
             <div class="image_box">
 
-                <img th:if="${el.getFirstImageName() != ''}" th:alt="${el.title}" th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${el.getFirstImageName()}"/>
+                <img th:if="${el.getFirstImageName() != ''}" th:alt="${el.originTitle}" th:src="'https://bucket-charity.s3.eu-central-1.amazonaws.com/' + ${el.getFirstImageName()}"/>
 
                 <img th:if="${el.getFirstImageName() == ''}" th:src="@{/images/help.png}" alt="Help me"/>
 
             </div>
+
             <div>
-                <p th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="cart_title" th:utext="${el.titleEn}"></p>
-                <p th:if="${actualLocal == 'uk'}" class="cart_title" th:utext="${el.title}"></p>
-                <p th:if="${actualLocal == 'en'}" class="cart_title" th:utext="${el.titleEn}"></p>
-                <p th:if="${actualLocal == 'de'}" class="cart_title" th:utext="${el.titleDe}"></p>
-                <p th:if="${actualLocal == 'pl'}" class="cart_title" th:utext="${el.titlePl}"></p>
-                <p th:if="${actualLocal == 'ru'}" class="cart_title" th:utext="${el.titleRu}"></p>
+                <!--show original custom title-->
+                <th:block th:if="${el.originLanguage} == ${actualLocal}">
+                    <p class="cart_title" th:utext="${el.originTitle}"></p>
+                </th:block>
+
+                <!--            show translation-->
+                <th:block th:each="customInfo : ${el.customInfos}">
+                    <th:block th:if="${customInfo.contentName} == 'Title' AND ${customInfo.language} == ${actualLocal}">
+                            <b class="cart_title" th:utext="${customInfo.translation}"></b>
+                    </th:block>
+                </th:block>
             </div>
+
             <div>
                 <a th:href="'/page-details/' + ${el.id}"><span th:text="#{index_page.kart_btn.more}"></span></a>
             </div>

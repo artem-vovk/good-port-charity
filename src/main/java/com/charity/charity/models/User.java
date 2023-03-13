@@ -26,28 +26,28 @@ public class User implements UserDetails {
     @Column(name = "id")
     private long id;
 
-    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
-    @Size(min = 2, max = 20, message = "{form_errors.reg.size_string}")
+//    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
+//    @Size(min = 2, max = 20, message = "{form_errors.reg.size_string}")
     //username = email
     private String firstname;
 
-    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
-    @Size(min = 2, max = 20, message = "{form_errors.reg.size_string}")
+//    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
+//    @Size(min = 2, max = 20, message = "{form_errors.reg.size_string}")
     //username = email
     private String surname;
 
-    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
-    @Size(min = 2, max = 20, message = "{form_errors.reg.size_string}")
+//    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
+//    @Size(min = 2, max = 20, message = "{form_errors.reg.size_string}")
     //username = email
     private String phone;
 
-    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
-    @Size(min = 6, max = 100, message = "{form_errors.reg.size_string}")
+//    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
+//    @Size(min = 6, max = 100, message = "{form_errors.reg.size_string}")
     //username = email
     private String password;
 
-    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
-    @Email(message = "{form_errors.reg.error_email}")
+//    @NotEmpty(message = "{form_errors.all_fields.not_empty}")
+//    @Email(message = "{form_errors.reg.error_email}")
     //username = email
     private String username;
 

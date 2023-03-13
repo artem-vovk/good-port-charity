@@ -1,6 +1,5 @@
 package com.charity.charity.controllers;
 
-import com.charity.charity.models.Item;
 import com.charity.charity.models.Role;
 import com.charity.charity.models.User;
 import com.charity.charity.repositirys.ItemRepository;
@@ -14,11 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -148,27 +144,27 @@ public class UserController {
 
 
 
-
-    @GetMapping("/user-page")
-    public String userPageView(HttpServletRequest request, Model model, Locale locale){
-        //get authoris user
-        Principal principal = request.getUserPrincipal();
-        String authorisUser = principal.getName();
-
-        List<Item> item = itemRepository.SQLfindByAuthor(authorisUser);
-        model.addAttribute("item", item);
-
-        //get actual local/language
-        String localeStr = locale.getLanguage();
-        model.addAttribute("actualLocal", localeStr);
-
-        User u = userRepository.findByUsername(authorisUser);
-        String authorName = u.getFirstname() + " " + u.getSurname();
-        model.addAttribute("authorName", authorName);
-
-
-        return "user-page";
-    }
+//    уже есть новый метод
+//    @GetMapping("/user-page")
+//    public String userPageView(HttpServletRequest request, Model model, Locale locale){
+//        //get authoris user
+//        Principal principal = request.getUserPrincipal();
+//        String authorisUser = principal.getName();
+//
+//        List<Item> item = itemRepository.SQLfindByAuthor(authorisUser);
+//        model.addAttribute("item", item);
+//
+//        //get actual local/language
+//        String localeStr = locale.getLanguage();
+//        model.addAttribute("actualLocal", localeStr);
+//
+//        User u = userRepository.findByUsername(authorisUser);
+//        String authorName = u.getFirstname() + " " + u.getSurname();
+//        model.addAttribute("authorName", authorName);
+//
+//
+//        return "user-page";
+//    }
 
 
 }

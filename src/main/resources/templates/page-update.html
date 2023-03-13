@@ -48,17 +48,10 @@
                 <form class="form-item" method="post"  th:action="@{'/page-details/' + ${item.id} + '/update'}" th:object="${item}">
 
                     <label th:text="#{page_update.form.label_title}"></label>
-                    <input th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" class="input-field" type="text" th:field="*{titleEn}"  maxlength="250">
-                    <input th:if="${actualLocal == 'uk'}" class="input-field" type="text" th:field="*{title}" minlength="80" maxlength="250" required >
-                    <input th:if="${actualLocal == 'en'}" class="input-field" type="text" th:field="*{titleEn}"  minlength="80" maxlength="250" required >
-                    <input th:if="${actualLocal == 'de'}" class="input-field" type="text" th:field="*{titleDe}"   minlength="80" maxlength="250" required >
-                    <input th:if="${actualLocal == 'pl'}" class="input-field" type="text" th:field="*{titlePl}" minlength="80" maxlength="250" name="" required >
-                    <input th:if="${actualLocal == 'ru'}" class="input-field" type="text" th:field="*{titleRu}" minlength="80" maxlength="250" required >
-                        <div  class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Name error</div>
-                        <div  class="error" th:if="${#fields.hasErrors('titleEn')}" th:errors="*{titleEn}">Name error</div>
-                        <div  class="error" th:if="${#fields.hasErrors('titleDe')}" th:errors="*{titleDe}">Name error</div>
-                        <div  class="error" th:if="${#fields.hasErrors('titlePl')}" th:errors="*{titlePl}">Name error</div>
-                        <div  class="error" th:if="${#fields.hasErrors('titleRu')}" th:errors="*{titleRu}">Name error</div>
+
+
+                    <input class="input-field" type="text" th:field="*{originTitle}" minlength="80" maxlength="250" required >
+                    <div  class="error" th:if="${#fields.hasErrors('originTitle')}" th:errors="*{originTitle}">Name error</div>
 
                     <label>Страна</label>
                     <select class="input-field" type="text" th:field="*{country}" >
@@ -78,39 +71,20 @@
                     <label>Категория</label>
                     <select class="input-field" type="text" th:field="*{category}">
                         <option value=""></option>
-<!--                        <option value="empty" th:selected="${'empty'==filtertype}"><span th:text="#{param.category.empty}"></span></option>-->
-                        <option value="param.category.Healthandmedicine" th:selected="${'param.category.Healthandmedicine'==item.category}"><span th:text="#{param.category.Healthandmedicine}"></span></option>
-                        <option value="param.category.Housing" th:selected="${'param.category.Housing'==item.category}"><span th:text="#{param.category.Housing}"></span></option>
-                        <option value="param.category.Transportationofpeopleandgoods" th:selected="${'param.category.Transportationofpeopleandgoods'==item.category}"><span th:text="#{param.category.Transportationofpeopleandgoods}"></span></option>
-                        <option value="param.category.humanitarianaid" th:selected="${'param.category.humanitarianaid'==item.category}"><span th:text="#{param.category.humanitarianaid}"></span></option>
-                        <option value="param.category.Volunteering" th:selected="${'param.category.Volunteering'==item.category}"><span th:text="#{param.category.Volunteering}"></span></option>
-                        <option value="param.category.Cultureandart" th:selected="${'param.category.Cultureandart'==item.category}"><span th:text="#{param.category.Cultureandart}"></span></option>
-                        <option value="param.category.Soprt" th:selected="${'param.category.Soprt'==item.category}"><span th:text="#{param.category.Soprt}"></span></option>
-                        <option value="param.category.carefortheelderly" th:selected="${'param.category.carefortheelderly'==item.category}"><span th:text="#{param.category.carefortheelderly}"></span></option>
-                        <option value="param.category.Scienceandeducation" th:selected="${'param.category.Scienceandeducation'==item.category}"><span th:text="#{param.category.Scienceandeducation}"></span></option>
-                        <option value="param.category.Enviromentprotection" th:selected="${'param.category.Enviromentprotection'==item.category}"><span th:text="#{param.category.Enviromentprotection}"></span></option>
-                        <option value="param.category.Sponsorship" th:selected="${'param.category.Sponsorship'==item.category}"><span th:text="#{param.category.Sponsorship}"></span></option>
-                        <option value="param.category.HelpUkrainianarmy" th:selected="${'param.category.HelpUkrainianarmy'==item.category}"><span th:text="#{param.category.HelpUkrainianarmy}"></span></option>
-                        <option value="param.category.Other" th:selected="${'param.category.Other'==item.category}"><span th:text="#{param.category.Other}"></span></option>
+                            <th:block th:each="el : ${optionsCategory}">
+                                <option th:value="${'param.category.' + el}" th:selected="${'param.category.' + el == item.category}"><span th:text="#{'param.category.__${el}__'}"></span></option>
+                            </th:block>
                     </select>
                     <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Name error</div>
 
                     <label th:text="#{page_update.form.label_money}"></label>
-                    <input class="input-field" type="number" th:field="*{price}" required maxlength="11">
+                    <input class="input-field" type="number" th:field="*{price}">
                         <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Name error</div>
 
                     <label th:text="#{page-update.form.label_text}">:</label>
-                    <textarea th:if="${actualLocal != 'uk' and actualLocal != 'en' and actualLocal != 'de' and actualLocal != 'pl' and actualLocal != 'ru'}" id="info" th:field="*{infoEn}" required ></textarea>
-                    <textarea th:if="${actualLocal == 'uk'}" id="info" th:field="*{info}" required ></textarea>
-                    <textarea th:if="${actualLocal == 'en'}" id="info" th:field="*{infoEn}" required ></textarea>
-                    <textarea th:if="${actualLocal == 'de'}" id="info" th:field="*{infoDe}" required ></textarea>
-                    <textarea th:if="${actualLocal == 'pl'}" id="info" th:field="*{infoPl}" required  ></textarea>
-                    <textarea th:if="${actualLocal == 'ru'}" id="info" th:field="*{infoRu}" required ></textarea>
-                        <div class="error" th:if="${#fields.hasErrors('info')}" th:errors="*{info}">Name error</div>
-                        <div class="error" th:if="${#fields.hasErrors('infoEn')}" th:errors="*{infoEn}">Name error</div>
-                        <div class="error" th:if="${#fields.hasErrors('infoDe')}" th:errors="*{infoDe}">Name error</div>
-                        <div class="error" th:if="${#fields.hasErrors('infoPl')}" th:errors="*{infoPl}">Name error</div>
-                        <div class="error" th:if="${#fields.hasErrors('infoRu')}" th:errors="*{infoRu}">Name error</div>
+                    <textarea id="info" th:field="*{originInfo}" required ></textarea>
+                    <div class="error" th:if="${#fields.hasErrors('originInfo')}" th:errors="*{originInfo}">Name error</div>
+
                     <br>
                     <button type="submit"><span th:text="#{page-update.btn.save_changes}"></span></button>
                 </form>
@@ -124,10 +98,9 @@
                         <input type="file"  name="file" required/>
                         <span th:text="#{page-update.btn.choice_photo}"></span>
                     </label>
-                    <p th:if="${errorformatfile} == 'errorformatfile'" class="error" th:text="#{form_errors.reg_admin.error_format_file}"></p>
-                    <p th:if="${limitfile} == 'limitfile'" class="error" th:text="#{form_errors.reg_admin.size_of_upload_file}"></p>
-                    <p th:if="${bigfile} == 'bigfile'" class="error" th:text="#{form_errors.reg_admin.size_of_upload_file}"></p>
-<!--                    <br>-->
+                    <th:block th:each="el : ${actualErrorsArray}">
+                        <p class="error" th:text="#{form_errors.reg_admin.__${el}__}"></p>
+                    </th:block>
                     <button type="submit"><span th:text="#{page-update.btn.upload_photo}"></span></button>
                 </form>
         <!--        show if user have uploaded photo-->

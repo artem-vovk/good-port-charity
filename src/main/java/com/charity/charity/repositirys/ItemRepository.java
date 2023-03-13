@@ -1,5 +1,6 @@
 package com.charity.charity.repositirys;
 
+
 import com.charity.charity.models.Item;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
@@ -21,7 +21,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "(item.country = :country OR :country IS NULL) " +
             "ORDER BY date DESC", nativeQuery = true)
     @NotNull
-    Page<Item> findAll(@NotNull Pageable pageable, @Param("category") String category, @Param("type") String type,  @Param("country") String country);
+    Page<Item> findAll(@NotNull Pageable pageable, @Param("category") String category, @Param("type") String type, @Param("country") String country);
 
 
     @Query(value = "SELECT * " +
@@ -29,10 +29,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "JOIN users ON item.author = users.id " +
             "WHERE users.username = :username ORDER BY date DESC", nativeQuery = true)
     List<Item> SQLfindByAuthor(@Param("username") String username);
-
-
-
-
-
 
 }
