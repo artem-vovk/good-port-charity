@@ -88,13 +88,13 @@
             <br>
 
             <!--            if show origin language-->
-            <h1 th:if="${actualLocal} == ${item.originLanguage}" class="h1-details" th:utext="${item.originInfo}"></h1>
+            <p th:if="${actualLocal} == ${item.originLanguage}" th:utext="${item.originInfo}"></p>
 
             <!--            if show translation-->
             <th:block th:if="${actualLocal} != ${item.originLanguage}">
                 <th:block th:each="customInfo : ${item.customInfos}">
                     <th:block th:if="${customInfo.language} == ${actualLocal} AND ${customInfo.contentName} == 'Info'">
-                        <h1 class="h1-details" th:utext="${customInfo.translation}"></h1>
+                        <p th:utext="${customInfo.translation}"></p>
                     </th:block>
                 </th:block>
             </th:block>
