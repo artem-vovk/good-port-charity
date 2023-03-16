@@ -3,6 +3,7 @@ package com.charity.charity.controllers;
 import com.charity.charity.models.CustomInfo;
 import com.charity.charity.models.Item;
 import com.charity.charity.models.User;
+import com.charity.charity.repositirys.CustominfoRepository;
 import com.charity.charity.repositirys.ItemRepository;
 import com.charity.charity.repositirys.UserRepository;
 import com.charity.charity.services.AWSS3Service;
@@ -40,6 +41,9 @@ public class ItemController implements WebMvcConfigurer {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CustominfoRepository custominfoRepository;
 
     @Autowired
     private AWSS3Service awsS3Service;
@@ -106,15 +110,16 @@ public class ItemController implements WebMvcConfigurer {
             item.setDate(date);
 
             List<CustomInfo> CustomInfos = new ArrayList<>();
-//
-            CustomInfos = TranslateService.translationCustomInfoList(
-                    item,
+
+            //translate to all languages and add all to CustomInfos
+            TranslateService.translatCustomInfoToAllLanguages(
+                    item.getOriginLanguage(),
                     item.getOriginTitle(),
                     "Title",
                     CustomInfos,
                     GOOGLE_TRANSLATOR_KEY);
-            CustomInfos = TranslateService.translationCustomInfoList(
-                    item,
+            TranslateService.translatCustomInfoToAllLanguages(
+                    item.getOriginLanguage(),
                     item.getOriginInfo(),
                     "Info",
                     CustomInfos,
@@ -165,8 +170,7 @@ public class ItemController implements WebMvcConfigurer {
         List<String> optionsCategory = ArrayWithFiltersOptions.optionsCategory();
         model.addAttribute("optionsCategory", optionsCategory);
 
-        String allFileNames = item.getFileName();
-        String[] arrayImageNames = MakeArrayImagesName.makeArrayImageName(allFileNames);
+        String[] arrayImageNames = item.getImageNamesAsArray();
         model.addAttribute("arrayImageNames", arrayImageNames);
 
         return "page-update";
@@ -196,7 +200,7 @@ public class ItemController implements WebMvcConfigurer {
             item.setUser(oldItem.getUser());
 
             modelAndView.addObject("item", item);
-            modelAndView.addObject("arrayImageNames", MakeArrayImagesName.makeArrayImageName(item.getFileName()));
+            modelAndView.addObject("arrayImageNames", item.getImageNamesAsArray());
 
             List<String> optionsCountry = ArrayWithFiltersOptions.optionsCountry();
             modelAndView.addObject("optionsCountry", optionsCountry);
@@ -215,44 +219,48 @@ public class ItemController implements WebMvcConfigurer {
             oldItem.setOriginTitle(item.getOriginTitle());
             oldItem.setOriginInfo(item.getOriginInfo());
 
+            oldItem.getCustomInfos().clear();
 
-            List<CustomInfo> customInfos = new ArrayList<>();
+            List<CustomInfo> customInfosNew = new ArrayList<>();
 
-
-            customInfos = TranslateService.translationCustomInfoList(
-                    oldItem,
+            //translate to all languages and add all to customInfosNew
+            TranslateService.translatCustomInfoToAllLanguages(
+                    oldItem.getOriginLanguage(),
                     oldItem.getOriginTitle(),
                     "Title",
-                    customInfos,
+                    customInfosNew,
                     GOOGLE_TRANSLATOR_KEY);
-            customInfos = TranslateService.translationCustomInfoList(
-                    oldItem,
+            TranslateService.translatCustomInfoToAllLanguages(
+                    oldItem.getOriginLanguage(),
                     oldItem.getOriginInfo(),
                     "Info",
-                    customInfos,
+                    customInfosNew,
                     GOOGLE_TRANSLATOR_KEY);
 
-            oldItem.setCustomInfos(customInfos);
+            //set customInfosNew into DB
+//            oldItem.setCustomInfos(customInfosNew); //don`t work
+            for(CustomInfo i : customInfosNew) {
+                oldItem.addCustomInfo(i);
+            }
 
             itemRepository.save(oldItem);
-
             return "redirect:/page-details/" + id + "/update?statusupdate=true#";
         }
-
     }
 
 
     @PostMapping("/page-update/{id}/delete")
     public String deletePage(
-            @PathVariable(value = "id") long id,
-            @RequestParam String fileNames
+            @PathVariable(value = "id") long id
+//            @RequestParam String fileNames
     ) {
 
         Item item = itemRepository.findById(id).orElse(new Item());
 
         //delete files from aws s3
         if (!item.getFileName().equals("")) {
-            String[] arrayFileNames = MakeArrayImagesName.makeArrayImageName(fileNames);
+//            String[] arrayFileNames = MakeArrayImagesName.makeArrayImageName(fileNames);
+            String[] arrayFileNames = item.getImageNamesAsArray();
             for (String el : arrayFileNames) {
                 awsS3Service.deleteFile(el);
             }
@@ -303,7 +311,7 @@ public class ItemController implements WebMvcConfigurer {
 
         //show img-nav if app has more the 1 uploaded photo
         if (!item.getFileName().equals("")) {
-            String[] allFilesName = MakeArrayImagesName.makeArrayImageName(item.getFileName());
+            String[] allFilesName = item.getImageNamesAsArray();
             if (allFilesName.length > 1) {
                 model.addAttribute("showNavImg", "showNavImg");
             }
@@ -365,11 +373,9 @@ public class ItemController implements WebMvcConfigurer {
                                         @PathVariable(value = "imageNames") String imageNames
     ) {
 
-        String[] arrayImageName = MakeArrayImagesName.makeArrayImageName(imageNames);
-        ArrayList<String> arrayListImageNames = new ArrayList<>(Arrays.asList(arrayImageName));
-
         Item item = itemRepository.findById(id).orElse(new Item());
-
+//        String[] arrayImageName = MakeArrayImagesName.makeArrayImageName(imageNames);
+        ArrayList<String> arrayListImageNames = new ArrayList<>(Arrays.asList(item.getImageNamesAsArray()));
 
         if(awsS3Service.deleteFile(imageName).equals("successful delete")){
 
@@ -389,10 +395,12 @@ public class ItemController implements WebMvcConfigurer {
 
 
     //service method - swiping photo
-    @GetMapping("/page-details/next-img/{image-names}")
+    @GetMapping("/page-details/next-img/{id}")
     @ResponseBody
-    public String nameOfNextImage(@PathVariable(value = "image-names") String imageNames) {
-        String[] arrayNameOfImages = MakeArrayImagesName.makeArrayImageName(imageNames);
+    public String nameOfNextImage(@PathVariable(value = "id") Long id) {
+
+        Item item = itemRepository.findById(id).orElse(new Item());
+        String[] arrayNameOfImages = item.getImageNamesAsArray();
 
         if (index < (arrayNameOfImages.length - 1)) {
             index += 1;
@@ -404,10 +412,12 @@ public class ItemController implements WebMvcConfigurer {
 
 
     //service method - swiping photo
-    @GetMapping("/page-details/prev-img/{image-names}")
+    @GetMapping("/page-details/prev-img/{id}")
     @ResponseBody
-    public String nameOfPrevImage(@PathVariable(value = "image-names") String imageNames) {
-        String[] arrayNameOfImages = MakeArrayImagesName.makeArrayImageName(imageNames);
+    public String nameOfPrevImage(@PathVariable(value = "id") Long id) {
+
+        Item item = itemRepository.findById(id).orElse(new Item());
+        String[] arrayNameOfImages = item.getImageNamesAsArray();
 
         if (index == 0 ) {
             index = (arrayNameOfImages.length - 1);

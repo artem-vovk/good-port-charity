@@ -45,14 +45,14 @@
         <input class="input-field" type="text" th:field="*{originTitle}" th:placeholder="#{add_item.form.placeholder_title}" required minlength="01" maxlength="245">
         <div class="error" th:if="${#fields.hasErrors('originTitle')}" th:errors="*{originTitle}">Name error</div>
 
-        <label>Страна</label>
+        <label th:text="#{filter_param.label.country}"></label>
         <select class="input-field" type="text" th:field="*{country}">
             <option value=""></option>
             <option th:each="i : ${optionsCountry}" th:value="${'param.country.' + i}" th:text="#{param.country.__${i}__}"></option>
         </select>
                     <div class="error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Name error</div>
 
-        <label>Тип</label>
+        <label th:text="#{filter_param.label.type}"></label>
         <select class="input-field" type="text" th:field="*{type}">
             <option value=""></option>
             <option value="param.type.Offer" th:selected="${'param.type.Offer'==filtertype}"><span th:text="#{param.type.Offer}"></span></option>
@@ -60,7 +60,7 @@
         </select>
             <div class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name error</div>
 
-        <label>Категория</label>
+        <label th:text="#{filter_param.label.category}"></label>
         <select class="input-field" type="text" th:field="*{category}">
             <option value=""></option>
             <th:block th:each="el : ${optionsCategory}">

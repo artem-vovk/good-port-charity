@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -29,5 +30,31 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "JOIN users ON item.author = users.id " +
             "WHERE users.username = :username ORDER BY date DESC", nativeQuery = true)
     List<Item> SQLfindByAuthor(@Param("username") String username);
+
+
+
+//            "SELECT * " +
+//            "FROM item " +
+//            "JOIN users ON item.author = users.id " +
+//            "WHERE users.username = :username ORDER BY date DESC", nativeQuery = true)
+//    @Modifying
+//    @Query(value = "DELETE * FROM item " +
+//            "JOIN custom_info ON item.item_id = custom_info.item_id " +
+//            "WHERE custom_info.item_id = :item_id", nativeQuery = true)
+//    void SQLdeleteCustomInfoByItemId(@Param("item_id") String item_id);
+
+
+//    @Modifying
+//    @Query(value = "DELETE * FROM item " +
+//            "JOIN custom_info ON item.item_id = custom_info.item_id " +
+//            "WHERE custom_info.item_id = :item_id", nativeQuery = true)
+//    void SQLdeleteCustomInfoByItemId(@Param("item_id") String item_id);
+
+        @Modifying
+    @Query(value = "DELETE * FROM item " +
+            "JOIN custom_info ON item.item_id = custom_info.item_id " +
+            "WHERE custom_info.item_id = :item_id", nativeQuery = true)
+    void SQLdeleteCustomInfoByItemId(@Param("item_id") String item_id);
+
 
 }

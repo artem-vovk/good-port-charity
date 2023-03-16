@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
 public class Item {
@@ -31,17 +32,17 @@ public class Item {
     @Size(min = 40, max = 245, message = "{form_errors.item_title.size}")
     private String originTitle;
 
-    @Size(max = 20000, message = "Максимальний размір тексту 7000 символів")
+    @Size(max = 20000, message = "{page-update.form.label_text}")
     @Column(columnDefinition="LONGTEXT", length=20000)
     private String originInfo;
 
-    @Size(min = 1, message = "Выберите страну")
+    @Size(min = 1, message = "{filer_param.error_mess.select_country}")
     private String country;
 
-    @Size(min = 1, message = "Выберите тип")
+    @Size(min = 1, message = "{filer_param.error_mess.select_type}")
     private String type;
 
-    @Size(min = 1, message = "Выберите категорию")
+    @Size(min = 1, message = "{filer_param.error_mess.select_category}")
     private String category;
 
     @JoinColumn(name = "author")
@@ -49,9 +50,9 @@ public class Item {
     private User user;
 
 
-    @JoinColumn(name = "item_id")
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //сделать стратегию связки, чтобы автоматом удалять связанные записи в дочерней таблице
-    private List<CustomInfo> customInfos = new ArrayList<>();
+    @JoinColumn(name = "item_id_join")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true) //orphanRemoval = true - is very important for remove children
+    private List<CustomInfo> customInfos = new CopyOnWriteArrayList<CustomInfo>();
 
 
     public Item(){
@@ -75,6 +76,18 @@ public class Item {
 
     public List<CustomInfo> getCustomInfos() {
         return customInfos;
+    }
+
+    public void setCustomInfos(List<CustomInfo> customInfos) {
+        this.customInfos = customInfos;
+    }
+
+    public void addCustomInfo(CustomInfo customInfo) {
+        this.customInfos.add(customInfo);
+    }
+
+    public void deleteCustomInfo(CustomInfo customInfo){
+        this.customInfos.remove(customInfo);
     }
 
     public void addTranslationToCustomInfos(String contentName, String language, String translation){
@@ -149,9 +162,6 @@ public class Item {
         this.originInfo = originInfo;
     }
 
-    public void setCustomInfos(List<CustomInfo> customInfos) {
-        this.customInfos = customInfos;
-    }
 
 
     public String getCountry() {
@@ -181,10 +191,17 @@ public class Item {
 
     public String getFirstImageName(){
 
-        String[] firstImageName = MakeArrayImagesName.makeArrayImageName(this.fileName);
+        String[] firstImageName = getImageNamesAsArray();
 
         return firstImageName[0];
     }
 
+    public String[] getImageNamesAsArray() {
+        if (this.fileName != null) {
+            return this.fileName.split("\\,");
+        } else {
+            return new String[]{};
+        }
+    }
 
 }

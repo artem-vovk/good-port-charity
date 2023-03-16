@@ -1,5 +1,7 @@
 package com.charity.charity.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,11 +13,31 @@ public class CustomInfo implements Serializable {
     private Long id;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="item_id_join")
+//    @JsonIgnore
+    private Item item;
+
+//    @ManyToOne
+//    @JoinColumn(name = "item_item_id")
+//    private Item item;
+
     private String language;
 
     private String contentName;
 
+    @Column(columnDefinition="LONGTEXT", length=30000)
     private String translation;
+
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
 
     public CustomInfo() {
     }

@@ -1,14 +1,11 @@
 package com.charity.charity.services;
 
 import com.charity.charity.models.CustomInfo;
-import com.charity.charity.models.Item;
-import com.charity.charity.repositirys.ItemRepository;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.translate.Translate;
 import com.google.api.services.translate.model.TranslationsListResponse;
 import com.google.api.services.translate.model.TranslationsResource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.io.IOException;
@@ -36,8 +33,8 @@ public class TranslateService {
 
 
     //service method
-    public static List<CustomInfo> translationCustomInfoList(
-            Item item,
+    public static List<CustomInfo> translatCustomInfoToAllLanguages(
+            String originLanguage,
             String text,
             String contentName,
             List<CustomInfo> customInfos,
@@ -48,7 +45,7 @@ public class TranslateService {
 //        List<CustomInfo> customInfos = new ArrayList<>();
 
         for (String lang : languagesForTranslation) {
-            if (!lang.equals(item.getOriginLanguage())){
+            if (!lang.equals(originLanguage)){
                 String translation = translateText(text, lang, GOOGLE_TRANSLATOR_KEY);
                 customInfos.add(new CustomInfo(contentName, lang, translation));
             }

@@ -16,7 +16,7 @@
             //flipping next
             $("#nextImage").bind("click", function () {
                 $.ajax ({
-                    url: "/page-details/next-img/" + $("#image-names").val(),
+                    url: "/page-details/next-img/" + $("#item_id").val(),
                     type: "GET",
                     //data: ({id: $("#item-id").val()}),
                     dataType: "html",
@@ -31,7 +31,7 @@
             //flipping prev
             $("#prevImage").bind("click", function () {
                 $.ajax ({
-                    url: "/page-details/prev-img/" + $("#image-names").val(),
+                    url: "/page-details/prev-img/" + $("#item_id").val(),
                     type: "GET",
                     dataType: "html",
                     success: function (data) {
@@ -117,7 +117,7 @@
 </div>
 
 <!--            hiding string for ajax and flipping photo-->
-<input style="visibility: hidden" id="image-names" th:value="${item.fileName}"/>
+<input style="visibility: hidden" id="item_id" th:value="${item.id}"/>
 
 <div th:replace="layouts/footer :: footer"></div>
 </body>
