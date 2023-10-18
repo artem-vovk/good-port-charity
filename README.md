@@ -1,5 +1,3 @@
-# GoodPort.top
-
 
 ### Description
 Web application – Social project which connects people in need with people who can offer help.
